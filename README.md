@@ -1,8 +1,20 @@
+<p align="center">
+  <img src="./assets/solo_ubuntu_logo.png" alt="Solo Ubuntu Logo" width="200"/>
+</p>
+
 # Solo Ubuntu: The Agentic Developer's Custom Distribution
 
 **Solo Ubuntu** is a project that provides the necessary scripts and documentation to create a highly customized Ubuntu-based operating system image, tailored for the modern developer and power user. Inspired by the concept of "modded Ubuntu," this distribution focuses on pre-installing essential development tools, productivity applications, and cutting-edge AI-powered IDEs.
 
 The core of this project is the `solo-ubuntu-setup.sh` script, which automates the installation and configuration of all included software on a fresh Ubuntu installation or within a chroot environment (a common step when building a custom ISO).
+
+## Solo Ubuntu Desktop Preview
+
+A preview of the XFCE4 desktop environment with the key applications installed:
+
+<p align="center">
+  <img src="./assets/solo_ubuntu_desktop_mockup.png" alt="Solo Ubuntu Desktop Mockup" width="700"/>
+</p>
 
 ## Key Pre-installed Applications
 
