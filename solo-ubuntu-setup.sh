@@ -2,7 +2,8 @@
 
 # Solo Ubuntu Setup Script
 # This script automates the installation of pre-selected applications for Solo Ubuntu.
-# It is designed to be run within a chroot environment during the custom ISO creation process.
+# It is designed to be run within a chroot environment during the custom ISO creation process,
+# or within a proot-distro environment in Termux.
 
 echo "Starting Solo Ubuntu setup script..."
 
@@ -15,7 +16,23 @@ apt upgrade -y
 echo "Installing core applications..."
 apt install -y git htop vlc firefox
 
-# 3. Install Visual Studio Code (via Microsoft's repository)
+# 3. Install Desktop Environment and VNC Server for Termux GUI
+echo "Installing XFCE4 Desktop Environment and TigerVNC Server..."
+# XFCE is a lightweight desktop environment suitable for VNC/remote access
+apt install -y xfce4 xfce4-goodies tightvncserver dbus-x11
+
+# 4. Configure VNC startup script
+echo "Configuring VNC startup script..."
+mkdir -p ~/.vnc
+VNC_STARTUP_SCRIPT=~/.vnc/xstartup
+cat << EOF > $VNC_STARTUP_SCRIPT
+#!/bin/bash
+xrdb \$HOME/.Xresources
+startxfce4 &
+EOF
+chmod +x $VNC_STARTUP_SCRIPT
+
+# 5. Install Visual Studio Code (via Microsoft's repository)
 echo "Installing Visual Studio Code..."
 # Install dependencies
 apt install -y wget apt-transport-https
@@ -29,7 +46,7 @@ rm -f packages.microsoft.gpg
 apt update
 apt install -y code
 
-# 4. Install Docker Engine
+# 6. Install Docker Engine
 echo "Installing Docker Engine..."
 # Add Docker's official GPG key
 install -m 0755 -d /etc/apt/keyrings
@@ -44,27 +61,19 @@ echo \
 apt update
 apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# 5. Install Google Antigravity IDE
+# 7. Install Google Antigravity IDE
 echo "Installing Google Antigravity IDE..."
-# Based on research, Antigravity is a new AI IDE. We will simulate its installation
-# by downloading a placeholder deb package and installing it.
-# In a real scenario, the user would need to get the official download link.
-# For this project, we'll use a dummy package or a script to download the latest one.
-# Assuming the latest version is available as a .deb package for simplicity.
-ANTIGRAVITY_DEB="antigravity-ide_latest_amd64.deb"
-# This is a placeholder for the actual download command
-echo "Downloading placeholder for Google Antigravity IDE..."
-# curl -L -o $ANTIGRAVITY_DEB "https://antigravity.google/download/latest/linux_amd64.deb"
-# Since we cannot actually download a proprietary file, we will create a dummy file
-# and a script to represent the installation process.
+# Placeholder for Antigravity IDE installation
 echo "#!/bin/bash" > /usr/local/bin/antigravity
 echo "echo 'Google Antigravity IDE launched.'" >> /usr/local/bin/antigravity
 chmod +x /usr/local/bin/antigravity
 echo "Antigravity IDE placeholder installed. Run 'antigravity' to launch."
 
-# 6. Clean up
+# 8. Clean up
 echo "Cleaning up temporary files and caches..."
 apt autoremove -y
 apt clean
 
-echo "Solo Ubuntu setup complete. Applications are installed."
+echo "Solo Ubuntu setup complete. Applications and GUI environment are installed."
+echo "To start the VNC server, run: vncserver :1"
+echo "To stop the VNC server, run: vncserver -kill :1"

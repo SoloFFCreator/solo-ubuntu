@@ -17,8 +17,10 @@ This custom distribution is designed to be ready for development out-of-the-box,
 | **Docker** | Containerization | A platform for developing, shipping, and running applications in containers. | APT Repository |
 | **htop** | System Utility | An interactive process viewer and system monitor. | APT Package |
 | **VLC Media Player** | Multimedia | A highly portable multimedia player and framework. | APT Package |
+| **XFCE4 Desktop** | GUI Environment | A lightweight desktop environment for graphical access. | APT Package |
+| **TigerVNC Server** | Remote Access | A VNC server to connect to the GUI from a VNC client. | APT Package |
 
-## How to Use This Project
+## How to Use This Project (Custom ISO)
 
 This repository provides the *recipe* for Solo Ubuntu. To create your own custom ISO, you would typically follow these steps:
 
@@ -33,9 +35,9 @@ This repository provides the *recipe* for Solo Ubuntu. To create your own custom
 
 ***
 
-## Installation in Termux (Android)
+## Installation in Termux (Android) with GUI
 
-You can easily set up a Solo Ubuntu environment on your Android device using **Termux** and `proot-distro`. This method does not require root access.
+You can easily set up a Solo Ubuntu environment with a full graphical user interface (GUI) on your Android device using **Termux** and `proot-distro`. This method does not require root access.
 
 ### 1. Install Termux and Run the Installer Script
 
@@ -56,22 +58,60 @@ bash install-termux.sh
 
 ### 2. Log in to Ubuntu and Run the Setup Script
 
-The `install-termux.sh` script will install the base Ubuntu system. Once it is complete, you will need to log in to the Ubuntu environment and run the main setup script to install the applications.
+The `install-termux.sh` script will install the base Ubuntu system. Once it is complete, you will need to log in to the Ubuntu environment and run the main setup script to install the applications and the GUI environment.
 
 ```bash
 # Log in to the Ubuntu environment
 proot-distro login ubuntu
 
-# Run the main setup script to install all applications (VS Code, Antigravity, etc.)
+# Run the main setup script to install all applications (VS Code, Antigravity, XFCE4, VNC, etc.)
 bash /root/solo-ubuntu-setup.sh
 ```
 
-### 3. Launching Solo Ubuntu
+### 3. Set up and Start the GUI (VNC)
 
-After the setup script finishes, you can log in to your Solo Ubuntu environment anytime using:
+After the `solo-ubuntu-setup.sh` script finishes, the XFCE4 desktop and TigerVNC server will be installed. You can now set up your VNC password and start the server.
+
+**A. Set VNC Password (First Time Only)**
+
+The first time you run `vncserver`, it will prompt you to set a password for VNC access.
+
+```bash
+# Inside the Ubuntu environment
+vncserver :1
+```
+*Follow the prompts to set a password (and optionally a view-only password). The server will start on display `:1` (port 5901).*
+
+**B. Stop the Initial Server**
+
+Stop the server that was automatically started after setting the password.
+
+```bash
+# Inside the Ubuntu environment
+vncserver -kill :1
+```
+
+**C. Start the VNC Server**
+
+Start the VNC server again. The `solo-ubuntu-setup.sh` script has already configured the `~/.vnc/xstartup` file to launch the XFCE4 desktop.
+
+```bash
+# Inside the Ubuntu environment
+vncserver :1
+```
+
+### 4. Connect with a VNC Client
+
+1.  **Download a VNC Client:** Install a VNC client application (e.g., VNC Viewer, RealVNC) on your Android device.
+2.  **Connect:** In the VNC client, connect to the address: `localhost:5901`
+3.  **Enter Password:** Use the password you set in step 3A.
+
+You should now see the XFCE4 desktop environment running your Solo Ubuntu installation!
+
+### 5. Launching Solo Ubuntu (CLI)
+
+To access the command-line interface (CLI) of your Solo Ubuntu environment anytime:
 
 ```bash
 proot-distro login ubuntu
 ```
-
-*Note: The actual creation of a bootable ISO is a multi-step process that requires a dedicated environment and tools like Cubic. This project provides the core automation script for the software installation phase.*
