@@ -1,0 +1,20 @@
+# Solo Ubuntu .gitignore
+# Ignore common build and temporary files related to ISO creation
+
+# Custom ISO build files
+/custom-iso/
+/solo-ubuntu-*.iso
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Debian/Ubuntu package files
+*.deb
+
+# Editor and IDE files
+.vscode/
+.idea/
+*~
+\#*\#
