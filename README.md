@@ -1,129 +1,102 @@
-<p align="center">
-  <img src="./assets/solo_ubuntu_logo.png" alt="Solo Ubuntu Logo" width="200"/>
-</p>
+# 🚀 Solo Ubuntu
 
-# Solo Ubuntu: The Agentic Developer's Custom Distribution
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Android%20%7C%20Termux-brightgreen.svg)
+![License](https://img.shields.io/badge/license-MIT-orange.svg)
 
-**Solo Ubuntu** is a project that provides the necessary scripts and documentation to create a highly customized Ubuntu-based operating system image, tailored for the modern developer and power user. Inspired by the concept of "modded Ubuntu," this distribution focuses on pre-installing essential development tools, productivity applications, and cutting-edge AI-powered IDEs.
+**Solo Ubuntu** is a powerful, heavily modified, and upgraded fork of the original `ubuntu-on-android` project. It transforms your Android device into a full-fledged portable Linux workstation running Ubuntu inside Termux via PRoot—no root access required.
 
-The core of this project is the `solo-ubuntu-setup.sh` script, which automates the installation and configuration of all included software on a fresh Ubuntu installation or within a chroot environment (a common step when building a custom ISO).
+Unlike standard CLI-only implementations, **Solo Ubuntu** comes pre-configured with a full **XFCE4 Graphical Desktop Environment**, a **TigerVNC server** for remote or local graphical access, a complete media streaming suite, and custom development environments.
 
-## Solo Ubuntu Desktop Preview
+---
 
-A preview of the XFCE4 desktop environment with the key applications installed:
+## ✨ Key Features
 
-<p align="center">
-  <img src="./assets/solo_ubuntu_desktop_mockup.png" alt="Solo Ubuntu Desktop Mockup" width="700"/>
-</p>
+* **Desktop Environment Out-of-the-Box:** Automated installation of the lightweight, highly customizable XFCE4 desktop environment.
+* **Graphical Access via VNC:** Integrated TigerVNC standalone server configuration with D-Bus and PulseAudio bindings for seamless audio and video output.
+* **Microsoft Edge Browser:** Pre-configured Microsoft repository integration for web browsing.
+* **Android Studio Ready:** Automated extraction and desktop launcher creation for the latest Android Studio Linux builds in `/opt/`.
+* **Content Creator & Streaming Suite:** Pre-installed streaming tools including **OBS Studio**, **VLC Media Player**, and **FFMPEG**.
+* **Google Antigravity IDE:** Includes a custom terminal-based matrix easter egg and IDE wrapper for high-focus coding sessions.
+* **Seamless Storage Integration:** Auto-binds your Android `/sdcard` storage directly into the Ubuntu file system for painless file sharing.
 
-## Key Pre-installed Applications
+---
 
-This custom distribution is designed to be ready for development out-of-the-box, featuring:
+## 📋 Prerequisites
 
-| Application | Category | Purpose | Installation Method |
-| :--- | :--- | :--- | :--- |
-| **Google Antigravity IDE** | AI/Agentic Development | A next-generation, agent-first Integrated Development Environment (IDE) from Google. | Custom Script/Download |
-| **Visual Studio Code** | Code Editor | A lightweight yet powerful source code editor from Microsoft. | APT Repository |
-| **Mozilla Firefox** | Web Browser | A fast, private, and secure web browser. | APT Package |
-| **Git** | Version Control | The industry-standard distributed version control system. | APT Package |
-| **Docker** | Containerization | A platform for developing, shipping, and running applications in containers. | APT Repository |
-| **htop** | System Utility | An interactive process viewer and system monitor. | APT Package |
-| **VLC Media Player** | Multimedia | A highly portable multimedia player and framework. | APT Package |
-| **XFCE4 Desktop** | GUI Environment | A lightweight desktop environment for graphical access. | APT Package |
-| **TigerVNC Server** | Remote Access | A VNC server to connect to the GUI from a VNC client. | APT Package |
+1. **Android Device:** Running Android 8.0 (Oreo) or higher (ARM64 recommended).
+2. **Termux:** You **must** install Termux from [F-Droid](https://f-droid.org/packages/com.termux/). *Do not use the Google Play Store version, as it is deprecated and unsupported.*
+3. **Storage Space:** At least **8 GB to 10 GB** of free internal storage to accommodate the rootfs, GUI environment, Android Studio, and streaming tools.
+4. **VNC Viewer:** A VNC client app installed on your Android device (e.g., *RealVNC Viewer*, *bVNC*, or *AVNC*) or a PC on the same local network.
 
-## How to Use This Project (Custom ISO)
+---
 
-This repository provides the *recipe* for Solo Ubuntu. To create your own custom ISO, you would typically follow these steps:
+## ⚡ Installation Guide
 
-1.  **Start with a Base Ubuntu ISO:** Download a standard Ubuntu Desktop or Server ISO.
-2.  **Use a Customization Tool:** Tools like **Cubic** (Custom Ubuntu ISO Creator) are recommended to extract the ISO contents.
-3.  **Run the Setup Script:** Execute the `solo-ubuntu-setup.sh` script within the chroot environment provided by the customization tool.
-    ```bash
-    # Inside the chroot environment
-    ./solo-ubuntu-setup.sh
-    ```
-4.  **Re-package the ISO:** Use the customization tool to re-package the modified files into a new, bootable Solo Ubuntu ISO.
-
-***
-
-## Installation in Termux (Android) with GUI
-
-You can easily set up a Solo Ubuntu environment with a full graphical user interface (GUI) on your Android device using **Termux** and `proot-distro`. This method does not require root access.
-
-### 1. Install Termux and Run the Installer Script
-
-First, ensure you have the latest version of Termux installed (preferably from F-Droid or GitHub). Then, run the following commands in your Termux terminal:
+### Step 1: Prepare Termux and Clone the Repository
+Open Termux on your Android device and run the following commands to update your system, install Git, and download the Solo Ubuntu installer:
 
 ```bash
-# Install git and proot-distro
-pkg update -y && pkg upgrade -y
-pkg install proot-distro git -y
+pkg update && pkg upgrade -y
+pkg install git curl wget proot -y
+git clone [https://github.com/YourUsername/Solo-Ubuntu.git](https://github.com/YourUsername/Solo-Ubuntu.git)
+cd Solo-Ubuntu
+chmod +x *.sh
+``` 
+Step 2: Run the Main Installer
+Execute the bootstrap script. This will request Android storage permissions, download the Ubuntu rootfs, and build the PRoot environment:
+```
+./install.sh
+```
+Step 3: Start Solo Ubuntu
+Once the bootstrap completes, drop into your new Ubuntu terminal environment:
+./start-solo.sh
+Step 4: Install GUI and Applications
+Inside the Solo Ubuntu terminal (you will see a root@localhost:~# prompt), run the automated application setup script:
 
-# Clone the Solo Ubuntu repository
-git clone https://github.com/SoloFFCreator/solo-ubuntu.git
-cd solo-ubuntu
-
-# Run the Termux installer script
-bash install-termux.sh
+```
+./setup-gui-apps.sh
+```
+Note: This step downloads and compiles several gigabytes of desktop software. Grab a coffee; it may take 15–30 minutes depending on your internet connection and device speed.
+🖥️ Connecting to the Graphical Desktop (VNC)
+Once ./setup-gui-apps.sh completes, start your graphical
+display server from inside Solo Ubuntu:
+```
+vncserver -localhost no :1
 ```
 
-### 2. Log in to Ubuntu and Run the Setup Script
-
-The `install-termux.sh` script will install the base Ubuntu system. Once it is complete, you will need to log in to the Ubuntu environment and run the main setup script to install the applications and the GUI environment.
-
-```bash
-# Log in to the Ubuntu environment
-proot-distro login ubuntu
-
-# Run the main setup script to install all applications (VS Code, Antigravity, XFCE4, VNC, etc.)
-bash /root/solo-ubuntu-setup.sh
+(The first time you run this, you will be prompted to create a VNC password. Choose an 8-character password. You can answer "No" to creating a view-only password.)
+Connecting via Android App (Localhost)
+Open your VNC Viewer app (e.g., RealVNC Viewer).
+Create a new connection with the Address: 127.0.0.1:5901 (or localhost:5901).
+Name it Solo Ubuntu Desktop.
+Connect and enter the VNC password you set earlier.
+Killing the VNC Server
+To stop the desktop session and free up RAM, run:
 ```
-
-### 3. Set up and Start the GUI (VNC)
-
-After the `solo-ubuntu-setup.sh` script finishes, the XFCE4 desktop and TigerVNC server will be installed. You can now set up your VNC password and start the server.
-
-**A. Set VNC Password (First Time Only)**
-
-The first time you run `vncserver`, it will prompt you to set a password for VNC access.
-
-```bash
-# Inside the Ubuntu environment
-vncserver :1
-```
-*Follow the prompts to set a password (and optionally a view-only password). The server will start on display `:1` (port 5901).*
-
-**B. Stop the Initial Server**
-
-Stop the server that was automatically started after setting the password.
-
-```bash
-# Inside the Ubuntu environment
 vncserver -kill :1
 ```
-
-**C. Start the VNC Server**
-
-Start the VNC server again. The `solo-ubuntu-setup.sh` script has already configured the `~/.vnc/xstartup` file to launch the XFCE4 desktop.
-
-```bash
-# Inside the Ubuntu environment
-vncserver :1
+Application Showcase & Custom Commands
+Launch Android Studio: Search for Android Studio in your XFCE4 applications menu under "Development", or launch it from the terminal using:
 ```
-
-### 4. Connect with a VNC Client
-
-1.  **Download a VNC Client:** Install a VNC client application (e.g., VNC Viewer, RealVNC) on your Android device.
-2.  **Connect:** In the VNC client, connect to the address: `localhost:5901`
-3.  **Enter Password:** Use the password you set in step 3A.
-
-You should now see the XFCE4 desktop environment running your Solo Ubuntu installation!
-
-### 5. Launching Solo Ubuntu (CLI)
-
-To access the command-line interface (CLI) of your Solo Ubuntu environment anytime:
-
-```bash
-proot-distro login ubuntu
+android-studio &
 ```
+Launch Microsoft Edge: Find it in the XFCE4 "Internet" menu or type:
+```
+microsoft-edge-stable &
+ ```
+Google Antigravity IDE: Experience zero-gravity coding! Launch our custom easter egg IDE wrapper from the terminal:
+```
+google-antigravity-ide /path/to/your/file.py
+```
+OBS Studio & VLC: Fully accessible via the XFCE4 "Multimedia" menu for recording your PRoot screen or streaming media.
+
+
+
+🛠️ Troubleshooting & Notes
+Architecture Limitations (ARM64 vs. x86_64): Most modern Android devices use ARM64 processors. While applications like VLC, OBS, and XFCE4 compile natively for ARM64, pre-compiled proprietary x86_64 binaries (like official Microsoft Edge .deb packages or specific Android Studio x86 emulators) may require translation layers like box86/box64 or will fall back to Chromium-based alternatives automatically during setup.
+Audio Output: Solo Ubuntu routes audio through Termux's PulseAudio server. If audio fails, ensure Termux is running in the background and execute pulseaudio --start from the native Termux session before launching ./start-solo.sh.
+📄 License & Acknowledgments
+This project is licensed under the MIT License.
+Originally inspired by and forked from ubuntu-on-android by RandomCoderOrg.
+Rebranded, optimized, and maintained by the Solo Ubuntu Team.
