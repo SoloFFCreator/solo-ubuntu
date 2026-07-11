@@ -5,6 +5,8 @@
 ![License](https://img.shields.io/badge/license-MIT-orange.svg)
 
 ![screenshot](https://raw.githubusercontent.com/SoloFFCreator/solo-ubuntu/refs/heads/main/assets/1783744971758.png)
+![screenshot](https://raw.githubusercontent.com/SoloFFCreator/solo-ubuntu/refs/heads/main/assets/1783745137632.png)
+![screenshot](https://raw.githubusercontent.com/SoloFFCreator/solo-ubuntu/refs/heads/main/assets/1783745149429.png)
 
 **Solo Ubuntu** is a powerful, heavily modified, and upgraded fork of the original `ubuntu-on-android` project. It transforms your Android device into a full-fledged portable Linux workstation running Ubuntu inside Termux via PRoot—no root access required.
 
