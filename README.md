@@ -43,7 +43,7 @@ Open Termux on your Android device and run the following commands to update your
 ```bash
 pkg update && pkg upgrade -y
 pkg install git curl wget proot -y
-git clone [https://github.com/YourUsername/Solo-Ubuntu.git](https://github.com/YourUsername/Solo-Ubuntu.git)
+git clone[ [https://github.com/SoloFFCreator/Solo-Ubuntu.git
 cd Solo-Ubuntu
 chmod +x *.sh
 ``` 
